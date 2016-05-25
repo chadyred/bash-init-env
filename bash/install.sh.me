@@ -1,0 +1,115 @@
+#!/bin/bash
+# maintener MOI
+
+# Exit if return none zero
+set -e
+
+echo "INSTALLATION DU SYSTEME"
+echo "-----------------------"
+echo "Mise à jour des paquets standards"
+# update
+apt-get -y update
+
+echo "Installation des dépendances"
+# dependencies
+apt-get -y install \
+	curl \
+ 	unzip \
+	libssl-dev \
+	zlib1g-dev \
+	libreadline-gplv2-dev
+
+echo "Installation du kernel"
+# install
+apt-get -y install linux-headers-$(uname -r) \
+	build-essential
+
+echo "Mise en place des ACL"
+echo "---------------------"
+
+# ACL
+echo 'vagrant ALL=NOPASSWD:ALL' > /etc/sudoers.d/vagrant \
+&& chmod 0440 /etc/sudoers /etc/sudoers.d/vagrant
+
+echo "Upgrade du système"
+apt-get upgrade
+
+apt-get clean \
+&& apt-get autoclean 
+
+function askPassword
+{
+	# Couleur : echo -e "\033[Xm" où X vaut de 36 à 45 (voir les variantes)
+	echo -e "\033[36m Mot \033[0m\033[38m \033[42m de passe\033[43m du nouvelle user\033[0m  <"$1"> : "
+
+	read -s user_pwd
+
+	echo -e "\033[45m Mot de passe\033[44m confirm du nouvelle user\033[0m"
+	read -s user_pwd_confirm
+}
+
+function askUsername
+{
+	echo "Création d'un user, nom dutilisateur : "
+	echo "-------------------------------"
+
+	echo "Username : "
+	read user_name
+	
+}
+
+
+user_confim_keep_clean='n'
+askUsername
+
+#Multi argument with space in username add argument (firstWord secondWord (take as argument))
+while [[ $user_name != ${user_name//[!0-9a-zA-Z_-]/0} ]] && [[ $user_confirm_keep_clean != 'o' ]]
+do			
+	echo -e "\033[1;1;4;5;7m Caractère inerdit dans le username\033[0m"
+
+	# On enlève les espaces
+	clean_username=${user_name// /.}
+
+	# On propose ce nouveau nom
+	echo "Nom d'utilisateur proposé  : " $clean_username
+	
+        read -p "Veut tu le garder (o/n) ? " user_confirm_keep_clean	
+
+	echo $user_confim_keep_clean
+	
+	# On redemande si une ereur est toujours présente
+	if [[ $user_confirm_keep_clean != 'o' ]]
+	then
+		askUsername
+	else
+		user_name="$clean_username"
+	fi
+		
+done	
+
+#récupéré avec $1 dans la fonction
+askPassword $user_name
+
+while [ $user_pwd != $user_pwd_confirm ]
+do
+
+	if [ $user_pwd != $user_pwd_confirm ]
+	then 
+		echo -e "\033[1;1;4;5;7m Mauvais mot de passe\033[0m"
+	fi	
+
+	#récupérer avec $1 dans la fonction
+	askPassword $user_name	
+done
+
+#ACL for new user
+echo 'user ALL=NOPASSWD:ALL' > "/etc/sudoers.d/$user_name" \
+&& chmod 0440 /etc/sudoers /etc/sudoers.d/$user_name
+
+# Custom passwd or new user
+useradd -G sudo -p "$user_pwd" -m -s /bin/bash -N "$user_name"
+
+
+echo "Utilisateur ajouté !"
+echo "---------------------"
+echo "-------Terminé-------"
