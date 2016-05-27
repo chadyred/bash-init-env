@@ -1,0 +1,28 @@
+Test                https://fr.wikipedia.org/wiki/Test_(informatique)
+Test Unitaire       https://fr.wikipedia.org/wiki/Test_unitaire
+	PHPUnit			https://phpunit.de/
+	Atoum			http://atoum.org/
+	MutaTesting		http://blog.lepine.pro/php/mutation-testing-en-php-indicateurs-de-qualite-des-tests-unitaires/
+
+Test d'intégration  https://fr.wikipedia.org/wiki/Test_d%27int%C3%A9gration
+	Les outils d’analyse de qualité
+		PHPDepend 		         https://pdepend.org/
+		PHP Mess Detector        https://phpmd.org/
+		PHP Copy/Paste Detector  https://github.com/sebastianbergmann/phpcpd
+		PHPLOC                   https://github.com/sebastianbergmann/phploc
+		PHP_CodeSniffer          http://pear.php.net/package/PHP_CodeSniffer/redirected
+		phpDocumentor			 https://www.phpdoc.org/
+		PHP_CodeBrowser          https://github.com/Mayflower/PHP_CodeBrowser          
+        CodeFlower               http://www.redotheweb.com/CodeFlower/
+        PhpMetrics               http://www.phpmetrics.org/
+        
+Test Validation     https://fr.wikipedia.org/wiki/Test_de_validation
+
+
+Test de régression  https://fr.wikipedia.org/wiki/Test_de_r%C3%A9gression
+	Gemini			http://gemini-testing.github.io/gemini/
+	Wraith 			http://csste.st/tools/wraith.html
+					https://pantheon.io/docs/guides/visual-diff-with-wraith/
+
+Test d'acceptation  https://fr.wikipedia.org/wiki/Test_d%27acceptation
+
