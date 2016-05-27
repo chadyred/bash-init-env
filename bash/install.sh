@@ -8,6 +8,10 @@
 cmdProxy='command'
 command type -f 'sudo' &> /dev/null && cmdProxy='sudo'
 
+# Fichier qui contiedra le mot e passe générer par le script d'intialisation de mysql
+echo '' > "${HOME}/.passwords_TODELETE"
+${cmdProxy} chmod 600 "${HOME}/.passwords_TODELETE"
+
 echo "INSTALLATION DU SYSTEME"
 echo "-----------------------"
 
@@ -18,7 +22,8 @@ source "$current_dir/libs/users.sh"
 source "$current_dir/libs/motd.sh"
 source "$current_dir/libs/ssh_config.sh"
 source "$current_dir/libs/apache2.sh"
-source "$current_dir/libs/mysql.sh"
+source "$current_dir/libs/mysql.sh" # Si un mot de passe a été généré on ne poua plus ce connecter avec le mot de passe par défaut
+source "$current_dir/libs/pma.sh"
 
 echo "-----------------------"
 echo "FIN DE L'INSTALLATION"
